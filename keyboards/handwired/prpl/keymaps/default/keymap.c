@@ -194,7 +194,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 
 void oled_task_user(void) {
 //print("Hello there");
-      render_status();  // Renders a static logo
+      render_logo();  // Renders a static logo
 
 }
 
