@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 //#include "print.h"
+//
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -7,14 +8,14 @@
 // entirely and just use numbers.
 #define _WORKMAN 0
 #define _DVORAK 1
-#define _LOWER 4
+#define _LOWER 3
 #define _RAISE 4
 #define _QWERTY 2
 #define _ADJUST 16
 
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
- // debug_enable=true;
+ //debug_enable=true;
   //debug_matrix=true;
   //debug_keyboard=true;
   //debug_mouse=true;
@@ -114,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, KC_DEL, \
   _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM, RGB_MOD, RGB_TOG, AG_SWAP, WORKMAN, _______, DVORAK,  _______, _______, \
   _______, _______, _______, _______, _______, RGB_SAD, RGB_HUI, RGB_VAI, RGB_SAI, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______,          RGB_HUD, RGB_VAD,          _______, _______, _______, _______, _______ \
+  EEP_RST, _______, _______, _______, _______,          RGB_HUD, RGB_VAD,          _______, _______, _______, _______, _______ \
 )
 
 
@@ -124,154 +125,40 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case WORKMAN:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_WORKMAN);
+          set_single_persistent_default_layer(_WORKMAN);
       }
       return false;
     case DVORAK:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_DVORAK);
+          set_single_persistent_default_layer(_DVORAK);
       }
       return false;
     case QWERTY:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_QWERTY);
+          set_single_persistent_default_layer(_QWERTY);
       }
       return false;
 
-  }
-  return true;
-}
-
-
-#ifdef OLED_DRIVER_ENABLE
-
-/* void render_status(void) { */
-/*     // Host Keyboard Layer Status */
-/*     oled_write_P(PSTR("Layer: "), false); */
-
-/*     switch (get_highest_layer(layer_state)) { */
-/*         case _WORKMAN: */
-/*             oled_write_P(PSTR("Default\n"), false); */
-/*             break; */
-/*         case _DVORAK: */
-/*             oled_write_P(PSTR("DVORAK\n"), false); */
-/*             break; */
-/*         default: */
-/*             // Or use the write_ln shortcut over adding '\n' to the end of your string */
-/*             oled_write_ln_P(PSTR("Undefined"), false); */
-/*     } */
-
-/*     // Host Keyboard LED Status */
-/*     led_t led_state = host_keyboard_led_state(); */
-/*     oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false); */
-/*     oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false); */
-/*     oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false); */
-/* } */
-
-
-static void render_logo(void) {
-    static const char PROGMEM qmk_logo[] = {
-        0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93, 0x94,
-        0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF, 0xB0, 0xB1, 0xB2, 0xB3, 0xB4,
-        0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF, 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0x00
-    };
-
-    oled_write_P(qmk_logo, false);
-}
-
-
-oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (!is_keyboard_master()) {
-        return OLED_ROTATION_90;
     }
-
-    return rotation;
+    return true;
 }
 
-void oled_task_user(void) {
-//print("Hello there");
-      render_logo();  // Renders a static logo
-
-}
-
-
-
-
-
-#endif
-
-#ifdef HELLO
-void encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) { /* First encoder */
-        if (clockwise) {
-            if (IS_LAYER_ON(_ADJUST)) {
-                tap_code16(RGB_HUI);
-            } else if (IS_LAYER_ON(_RAISE)){
-                tap_code(KC_PGUP)
-            } else {
-                tap_code(KC_AUDIO_VOL_UP);
-            }
-        } else {
-            if (IS_LAYER_ON(_ADJUST)) {
-                tap_code16(RGB_HUD);
-            } else if (IS_LAYER_ON(_RAISE)){
-                tap_code(KC_PGDN)
-            } else {
-                tap_code(KC_AUDIO_VOL_DOWN);
-            }
-        }
-    } else if (index == 1) { /* Second encoder */
-        if (clockwise) {
-            if (IS_LAYER_ON(_LOWER)) {
-                tap_code(KC_RIGHT);
-             } else if (IS_LAYER_ON(_ADJUST)) {
-                tap_code16(RGB_VAI);
-             } else {
-                tap_code(KC_DOWN);
-             }
-
-        } else {
-           if (IS_LAYER_ON(_LOWER)) {
-                tap_code(KC_LEFT);
-           } else if (IS_LAYER_ON(_ADJUST)) {
-               tap_code16(RGB_VAD);
-             } else {
-                tap_code(KC_UP);
-             }
-        }
-    }
-}
-#endif
+//encoders
 
 void encoder_update_user(uint8_t index, bool clockwise) {
 // left encoder
     if (index == 0) {
         switch(biton32(layer_state)){
-             case _RAISE:
-                if (clockwise) {
-                    tap_code(KC_PGUP);
-                } else {
-                    tap_code(KC_PGDN);
-                }
-                break;
-            case _ADJUST:
-                if (clockwise) {
-                    tap_code16(RGB_HUI);
-                } else {
-                    tap_code16(RGB_HUD);
-
-                }
+            case _RAISE:
+                clockwise ? tap_code(KC_PGUP) : tap_code(KC_PGDN);
                 break;
             default:
-                if (clockwise){
-                    tap_code(KC_VOLU);
-                } else{
-                    tap_code(KC_VOLD);
-                }
+                clockwise ? tap_code(KC_AUDIO_VOL_UP) : tap_code(KC_AUDIO_VOL_DOWN);
                 break;
       }
     }
@@ -279,26 +166,22 @@ void encoder_update_user(uint8_t index, bool clockwise) {
     else if (index == 1) {
         switch(biton32(layer_state)){
             case _LOWER:
-                if (clockwise){
-                    tap_code(KC_UP);
-                } else{
-                    tap_code(KC_DOWN);
-                }
-                break;
-            case _ADJUST:
-                if (clockwise){
-                    tap_code16(RGB_VAI);
-                } else{
-                    tap_code16(RGB_VAD);
-                }
+                clockwise ? tap_code(KC_DOWN) : tap_code(KC_UP);
                 break;
             default:
-                if (clockwise) {
-                    tap_code(KC_RGHT);
-                } else {
-                    tap_code(KC_LEFT);
-                }
+                clockwise ? tap_code(KC_LEFT) : tap_code(KC_RGHT);
                 break;
         }
     }
 }
+
+
+
+
+#ifdef OLED_DRIVER_ENABLE
+#    include "oled.c"
+#endif
+
+#if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
+#    include "rgb.c"
+#endif

@@ -15,4 +15,5 @@ void matrix_init_kb(void) {
     // PORTB &= ~(1<<0);
 
 	matrix_init_user();
+     setPinInputHigh(B9);
 };

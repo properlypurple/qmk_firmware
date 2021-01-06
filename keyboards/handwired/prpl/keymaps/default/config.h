@@ -31,6 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define MASTER_LEFT
 // #define MASTER_RIGHT
 #define EE_HANDS
-#define FLIP_HALF
+#define SPLIT_USB_DETECT
+//#define FLIP_HALF
 #define OLED_DISPLAY_ADDRESS 0x3c
 /* #define SSD1306OLED */
+#define TAP_CODE_DELAY 10
+#define OLED_FONT_H "keyboards/handwired/prpl/keymaps/default/glcdfont.c"

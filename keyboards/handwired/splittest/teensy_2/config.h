@@ -19,7 +19,7 @@
 #include "config_common.h"
 
 // use I2C on AVR
-#define USE_I2C
+//#define USE_I2C
 
 // wiring of each half
 #define MATRIX_ROW_PINS { F5 }
@@ -31,4 +31,4 @@
 #define RGB_DI_PIN D3
 
 // teensy has vbus detection issues - use usb detection instead
-#define SPLIT_USB_DETECT
+//#define SPLIT_USB_DETECT

@@ -20,4 +20,4 @@ SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
 
 SPLIT_KEYBOARD = yes
 
-DEFAULT_FOLDER = handwired/splittest/promicro
+DEFAULT_FOLDER = handwired/splittest/teensy_2
