@@ -96,7 +96,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //#define NO_MUSIC_MODE
 
-//#define B7_AUDIO
+///#define A5_AUDIO
 #ifdef AUDIO_ENABLE
   #define STARTUP_SONG SONG(STARTUP_SOUND)
 #endif
@@ -135,4 +135,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #define SERIAL_USART_DRIVER SD1 // USART driver of TX pin. default: SD1
-#define SERIAL_USART_TX_PAL_MODE 7 // Pin "alternate function", see the respective datasheet for the appropriate values for your MCU. default: 7
+#define SERIAL_USART_TX_PAL_MODE 7 // Pin "alternate function", see the respective datasheet for the appropriate values for your MCU. default:
+
+
+#define ONESHOT_TAP_TOGGLE 5  /* Tapping this number of times holds the key until tapped once again. */
+#define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */

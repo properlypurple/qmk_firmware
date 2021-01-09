@@ -48,3 +48,10 @@ ENCODER_ENABLE = yes
 
 SERIAL_DRIVER = usart
 WS2812_DRIVER = pwm
+
+TAP_DANCE_ENABLE = yes
+
+
+ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
+	SRC += keymaps/default/tapdance.c
+endif
